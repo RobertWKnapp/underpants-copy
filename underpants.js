@@ -2,8 +2,9 @@
 // other things. For more info:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 'use strict';
+// Functional Library
 
-var _ = {};
+var _ = {};  // var _ = {}
 
 
 /**
@@ -17,9 +18,13 @@ var _ = {};
 * Objectives:
 *   1) Returns <value> unchanged
 * Examples:
-*   _.identity(5) === 5
-*   _.identity({a: "b"}) === {a: "b"}
+*   _.identity(5) ==> 5
+*   _.identity({a: "b"}) ==> {a: "b"}
 */
+_.identity = function(value) {
+    // (1) any value, so function input is named value
+    return value;  // it returns the value unchanged
+}
 
 
 /** _.typeOf
@@ -41,6 +46,9 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
+_.typeOf = function(value) {
+    //function(nine) = '';
+}
 
 
 /** _.first
@@ -60,6 +68,9 @@ var _ = {};
 *   _.first(["a", "b", "c"], 1) -> "a"
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
+_.first = function(array) {
+    if !Array.isArray (array) return []
+}
 
 
 /** _.last
@@ -117,7 +128,7 @@ var _ = {};
 /** _.each
 * Arguments:
 *   1) A collection
-*   2) A function
+*   2) A function  // this means that this is a higher order function
 * Objectives:
 *   1) if <collection> is an array, call <function> once for each element
 *      with the arguments:
@@ -154,9 +165,28 @@ var _ = {};
 *   1) What if <function> returns something other than true or false?
 * Examples:
 *   _.filter([1,2,3,4,5], function(x){return x%2 === 0}) -> [2,4]
+* -.filter(['alex', 'francis', 'aaron'], function(x) { return x[0] === 'a}); => ['alex', 'francis']
 * Extra Credit:
 *   use _.each in your implementation
 */
+_.filter = function(array, func) {
+    // create output array
+let output = [];
+// use a for loop to iterate over
+for (let i = 0; i < array.length; i++){
+    // determine if the result of invoking func is true
+    //if (func(/current element/, /current index/, /array itself/)) {}
+        if (func(array [i], i, array) === true){
+            output.push(array[i]);
+        }
+
+    }
+    return output;
+}
+// filter higher order function
+    // callback function is used to "test" each item in an array 
+// map higher order function
+    // callback function takes in an item from the array and returns a new version
 
 
 /** _.reject
@@ -193,7 +223,7 @@ var _ = {};
 */
 
 
-/** _.map
+/** _.map  // this is the same function that we did in class = whatAmIDoing, or also named modify
 * Arguments:
 *   1) A collection
 *   2) a function
