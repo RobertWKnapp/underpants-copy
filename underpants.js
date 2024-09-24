@@ -1,7 +1,7 @@
 // This makes the arguments variable behave the way we want it to and a few
 // other things. For more info:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
-'use strict';
+//'use strict';
 
 var _ = {};
 
@@ -21,6 +21,9 @@ var _ = {};
 *   _.identity({a: "b"}) === {a: "b"}
 */
 
+_.identity = function(value) {
+return value;
+}
 
 /** _.typeOf
 * Arguments:
@@ -41,7 +44,16 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
-
+ 
+_.typeOf = function(anyValue) {
+    if (anyValue === null) {
+        return 'null';
+    }
+    if (Array.isArray(anyValue)) {
+        return 'array';
+    }
+return typeof anyValue;
+}
 
 /** _.first
 * Arguments:
@@ -61,6 +73,20 @@ var _ = {};
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
 
+_.first = function(array, number) {
+    if(!Array.isArray(array)){
+    return [];
+    }
+    if (typeof number !== 'number') {
+        return array[0];
+        if (number === undefined && number !== 'number' )
+        return array [0];
+    }
+    if (number < 0) {
+        return [];
+    }
+    return array.slice(0, number);
+}
 
 /** _.last
 * Arguments:
@@ -80,6 +106,20 @@ var _ = {};
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
 
+_.last = function(array, number) {
+    if(!Array.isArray(array)){
+        return [];
+        }
+        if (typeof number !== 'number') {
+            return array[array.length - 1];
+            if (number === undefined && number !== 'number' )
+            return array [0];
+        }
+        if (number < 0) {
+            return [];
+        }
+        return array.slice(-number);
+}
 
 /** _.indexOf
 * Arguments:
@@ -97,6 +137,14 @@ var _ = {};
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
 
+_.indexOf = function(array, value) {
+for(let i = 0; i < array.length; i++) {
+    if(array[i] === value){
+        return i;
+    }
+}
+return -1;
+}
 
 /** _.contains
 * Arguments:
@@ -113,6 +161,14 @@ var _ = {};
 *   _.contains([1,"two", 3.14], "two") -> true
 */
 
+_.contains = function(array, value) {
+for (let i = 0; i < array.length; i++){
+    //if (array[i] === value) return true  false;
+    //return array[i] === value ? true : (i === array.length - 1 ? false : undefined)
+    if (array[i] === value) return true ? true : false;
+} return false //if no value is given
+return false;
+}
 
 /** _.each
 * Arguments:
@@ -130,6 +186,19 @@ var _ = {};
 *      -> should log "a" "b" "c" to the console
 */
 
+_.each = function(collection, func){
+if (Array.isArray(collection)) {
+    for(let i = 0; i < collection.length; i++) {
+        func(collection[i], i, collection)
+    } else if (typeof collection === 'object' && collection !== null) {
+        for (let key in collection) {
+            if (collection.hasOwnProperty(key)) {
+                func(collection[key], key, collection);
+            }
+        }
+    }
+}
+}
 
 /** _.unique
 * Arguments:
@@ -141,6 +210,9 @@ var _ = {};
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
 
+_.unique = function() {
+
+}
 
 /** _.filter
 * Arguments:
@@ -158,6 +230,9 @@ var _ = {};
 *   use _.each in your implementation
 */
 
+_.filter = function() {
+
+}
 
 /** _.reject
 * Arguments:
@@ -172,6 +247,9 @@ var _ = {};
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 
+_.reject = function() {
+
+}
 
 /** _.partition
 * Arguments:
@@ -192,6 +270,9 @@ var _ = {};
 }
 */
 
+_.partition = function() {
+
+}
 
 /** _.map
 * Arguments:
@@ -207,8 +288,25 @@ var _ = {};
 *   3) return the new array
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
+*   _.map({ a: 1, b: 2, c: 3 }, function(e){return e * 2}) -> [2,4,6,8]
 */
 
+_.map = function(collection, func){
+    const output = [];
+    // if collection is an array
+    if (Array.isArray(collection)) {
+        // loop over each item in collection
+        for (let i = 0; i < collection.length; i++)
+        //let result = function(collection(i), i, collection)
+    output.push(func(collection[i], i, collection))
+//output.push(function(collection[i], i, collection))
+    }else { // else its an object
+for (let key in collection) {
+    output.push(func(collection[i], i, collection));
+}
+    }
+return output;
+}
 
 /** _.pluck
 * Arguments:
@@ -221,6 +319,9 @@ var _ = {};
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
 
+_.pluck = function() {
+
+}
 
 /** _.every
 * Arguments:
@@ -243,6 +344,9 @@ var _ = {};
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
+_.every = function() {
+
+}
 
 /** _.some
 * Arguments:
@@ -264,7 +368,9 @@ var _ = {};
 *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
+_.some = function() {
 
+}
 
 /** _.reduce
 * Arguments:
@@ -284,7 +390,9 @@ var _ = {};
 * Examples:
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
+_.reduce = function() {
 
+}
 
 /** _.extend
 * Arguments:
@@ -300,6 +408,9 @@ var _ = {};
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+_.extend = function() {
+
+}
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
