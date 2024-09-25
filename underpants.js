@@ -453,7 +453,16 @@ if (Array.isArray(collection)) {
             return true;
         }
     }
+} else { // if the collection is an object?
+    for (const key in collection) {
+        if (collection.hasOwnProperty(key)) {
+            if (func(collection[key], key, collection)) {
+                return true;
+            }
+        }
+    }
 }
+return false;
 }
 
 /** _.reduce
