@@ -189,7 +189,8 @@ return false;
 _.each = function(collection, func){
 if (Array.isArray(collection)) {
     for(let i = 0; i < collection.length; i++) {
-        func(collection[i], i, collection)
+        func(collection[i], i, collection);
+    }
     } else if (typeof collection === 'object' && collection !== null) {
         for (let key in collection) {
             if (collection.hasOwnProperty(key)) {
@@ -197,8 +198,8 @@ if (Array.isArray(collection)) {
             }
         }
     }
-}
-}
+};
+
 
 /** _.unique
 * Arguments:
@@ -210,8 +211,14 @@ if (Array.isArray(collection)) {
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
 
-_.unique = function() {
-
+_.unique = function(array) {
+    let storage = [];
+    for (let i = 0; i < array.length; i++) {
+        if (_.indexOf(storage, array[i]) === -1) {
+            storage.push(array[i]);
+        }
+    }
+return storage;;
 }
 
 /** _.filter
@@ -230,9 +237,19 @@ _.unique = function() {
 *   use _.each in your implementation
 */
 
-_.filter = function() {
-
+_.filter = function(array, func) {
+        // create output array
+    let output = [];
+    // use a for loop to iterate over
+    for (let i = 0; i < array.length; i++){
+        // determine if the result of invoking func is true
+        //if (func(/current element/, /current index/, /array itself/)) {}
+            if (func(array [i], i, array) === true){
+                output.push(array[i]);
+            }
 }
+return output;
+    }
 
 /** _.reject
 * Arguments:
@@ -247,8 +264,18 @@ _.filter = function() {
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 
-_.reject = function() {
-
+_.reject = function(array, func) {
+        // create output array
+        let output = [];
+        // use a for loop to iterate over
+        for (let i = 0; i < array.length; i++){
+            // determine if the result of invoking func is true
+            //if (func(/current element/, /current index/, /array itself/)) {}
+                if (!func(array [i], i, array) === true){
+                    output.push(array[i]);
+                }
+    }
+    return output;
 }
 
 /** _.partition
@@ -270,8 +297,20 @@ _.reject = function() {
 }
 */
 
-_.partition = function() {
-
+_.partition = function(array, func) {
+    // 2 sub arrays to hold something truthy and something falsey
+let truthy = [];
+let falsey = [];
+// iterate over each element in the array
+for (i = 0; i < array.length; i++) {
+    // call the function with the current index element, the index, and the array
+    if (func(array[i], i, array)){
+        truthy.push(array[i]);
+    } else {
+        falsey.push(array[i]);
+    }
+}
+return[truthy, falsey];
 }
 
 /** _.map
@@ -302,7 +341,7 @@ _.map = function(collection, func){
 //output.push(function(collection[i], i, collection))
     }else { // else its an object
 for (let key in collection) {
-    output.push(func(collection[i], i, collection));
+    output.push(func(collection[key], key, collection));
 }
     }
 return output;
@@ -319,8 +358,11 @@ return output;
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
 
-_.pluck = function() {
-
+_.pluck = function(array, property) {
+// use _.map to create/return array containing the value of <property> for every element
+return _.map(array, function(element) {
+    return element[property];
+})
 }
 
 /** _.every
@@ -344,9 +386,39 @@ _.pluck = function() {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
-_.every = function() {
+// _.every = function(collection, func) {
+// if (Array.isArray(collection)) { // if collection is array.
+// //if (!func) {   //determine if func is NOT truthy
+//         for (let i = 0; i < collection.length; i++) {
+//             if (!collection[i]) {  // determine if current item is not truthy
+//                 return false;
+//             }
+//         }
+// } else {  //else func was provided
 
-}
+// }
+// }else { //else it's an object
+//     for (let key in collection) {
+//         if(collection.hasOwnProperty(key))
+//     }
+//  if() {  // determine if no function was provided
+
+//  } else {
+
+//  }
+// }
+
+
+// _.every([1, 2, 3, 4], function(n){ return n % 2 === 0}); // false (because not every time is even)
+// _.every([2, 4, 6], function(n){ return n % 2 === 0}); // true (every item is even)
+// _.every({ a: 1, b: 2 }, function(n){ return n > 1});// false (not every item is greater than 1)
+// _.every({ a: 3, b: 4 }, function(n){ return n > 1}); /// true (every item is greater than 1)
+
+
+// _.every([1, 2, 3]); // true (because every item is truthy)
+// _.every([1, undefined, 3]); // false (because one item is falsey)
+// _.every({ a: 1, b: 2 }); // true (because all of the values are truthy)
+// _.every({ a: null, b: 2}); // false (because of the values if falsey)
 
 /** _.some
 * Arguments:
@@ -368,8 +440,20 @@ _.every = function() {
 *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
-_.some = function() {
-
+_.some = function(collection, func) {
+// if no function is provided
+if (!func) {
+    func = function(value) {
+        return value !== null && value !== undefined && value !== false && value !== 0 && value !== '';
+    };
+}
+if (Array.isArray(collection)) {
+    for (let i = 0; i < collection.length; i++) {
+        if(func(collection[i], i, collection)) {
+            return true;
+        }
+    }
+}
 }
 
 /** _.reduce
