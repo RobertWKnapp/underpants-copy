@@ -386,7 +386,58 @@ return _.map(array, function(element) {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
-// _.every = function(collection, func) {
+ _.every = function(collection, func) {
+if (Array.isArray(collection)) {
+    if (!func) {
+        for (let i = 0; i < collection.length; i++) {
+            if (!collection[i]) {
+                return false;
+            }
+        }
+    } else {
+        for (let i = 0; i < collection.length; i++) {
+            if (!func(collection[i], i, collection)) {
+                return false;
+            }
+        }
+    }
+} else {
+    if (!func) {
+        for (let key in collection) {
+            if (!collection[key]) {
+                return false;
+            }
+        }
+    } else {
+        for (let key in collection) {
+            if (!func(collection[key], key, collection)) {
+                return false;
+            }
+        }
+    }
+}       //return true if all elements pass
+return true;
+ }
+//     // if no function is provided (does not return a boolean)
+//     if(typeof func !== 'function') {
+//         func = (value) => value !== null && value !== undefined && value !== false && value !== 0 && value !== '' && value !== NaN;
+//     }
+// // if (collection) is an array
+// if (Array.isArray(collection)) {
+//     // loop over the array
+//     for (let i = 0; i < collection.length; i++) {
+//         if (!func(collection[i], i, collection)) {
+//             // return false if any of the collection fails this test
+//             return false
+//         }
+//     }
+// }
+// else if (typeof collection = 'object') {
+//     for (let key in collection) {
+//         if (collection.has)
+//     }
+// }
+//  }
 // if (Array.isArray(collection)) { // if collection is array.
 // //if (!func) {   //determine if func is NOT truthy
 //         for (let i = 0; i < collection.length; i++) {
@@ -501,7 +552,9 @@ _.reduce = function() {
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
-_.extend = function() {
+_.extend = function(object1, ...object2) {
+return Object.assign(object1, ...object2);
+
 
 }
 
