@@ -535,24 +535,22 @@ return false;
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
 _.reduce = function(array, func, seed) {
-    let output
+    let output;
     // determine if see was not provided a value
 if (seed === undefined) {
         output = array[0]; //  assign output the first item in the array
-        for (let i = 1; i < array.length; i++)
+        for (let i = 1; i < array.length; i++){
         // reassign output to the result invoking the callback function
     output = func(output, array[i], i)
 }
         //result = func(output, array[i], i)
-       else { // else there was a seed value provided
+  }  else { // else there was a seed value provided
     output = seed; // assign result seed, 
-    for (let I = 0; i < array.length; i++) {
-        // reassign output to the result invoking the callback function
-        //result = func(output, array[i], i);
+    for (let i = 0; i < array.length; i++) {
         output = func(output, array[i], i);
     }
     }   
-    return result
+    return output;
 
 }
 //_.filter => iterate over a collection and appy a function to each item.
